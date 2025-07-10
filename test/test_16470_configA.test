@@ -1,0 +1,80 @@
+<launch>
+  <!-- Launch ADIS16470 -->
+  <node pkg="adrd2121_imu" type="adrd2121_imu_node" name="adrd2121_imu_node" output="screen">
+    <!-- Load ADIS16470 Params -->
+    <rosparam command="load" file="$(find adrd2121_imu)/test/config/adis16470_configA.yaml" />
+  </node>
+
+  <!-- Test /imu/data_raw  -->
+  <test test-name="test_data_16470_configA" pkg="adrd2121_imu" type="test_data" clear_params="false" />
+
+  <!-- Test Parameters -->
+  <test test-name="test_param_16470_configA" pkg="adrd2121_imu" type="test_param" clear_params="false" ns="adrd2121_imu_node">
+    <param name="prod_under_test" value="16470"/>
+    <!-- Expected values of parameters -->
+    <param name="expected/topic_name" value="imu/data_raw" />
+    <param name="expected/frame_name" value="imu" />
+    <param name="expected/msg_type" value="1" /> <!-- sensor_msgs::Imu -->
+    <param name="expected/mode_of_operation" value="1" />
+    <param name="expected/usb_dev" value="/dev/ttyACM0" />
+    <param name="expected/usb_baud" value="921600" />
+    <param name="expected/enable_init_recovery" value="true" />
+    <param name="expected/buf_burst_count" value="1" />
+    <param name="expected/enable_imu_burst" value="true" />
+    <param name="expected/buf_overflow" value="0" />
+    <param name="expected/enable_buf_pps" value="false" />
+    <param name="expected/buf_data_rdy_sel" value="1" />
+    <param name="expected/buf_data_rdy_pol" value="1" />
+    <param name="expected/buf_pps_sel" value="0" />
+    <param name="expected/buf_pps_pol" value="0" />
+    <param name="expected/buf_pps_freq" value="0" />
+    <param name="expected/buf_pin_pass" value="0" />
+    <param name="expected/buf_watermark_int" value="0" />
+    <param name="expected/buf_overflow_int" value="0" />
+    <param name="expected/buf_error_int" value="0" />
+    <param name="expected/clear_buffer_timeout" value="500" />
+    <param name="expected/imu_prod_id" value="16470" />
+    <param name="expected/gravity" value="9.81" />
+    <param name="expected/imu_data_format" value="0" />
+    <param name="expected/imu_data_rate" value="500" />
+    <param name="expected/imu_data_rdy_line" value="0" />
+    <param name="expected/imu_data_rdy_pol" value="1" />
+    <param name="expected/enable_imu_sync_clk" value="false" />
+    <param name="expected/imu_sync_clk_mode" value="0" />
+    <param name="expected/imu_sync_clk_line" value="1" />
+    <param name="expected/imu_sync_clk_pol" value="1" />
+    <param name="expected/enable_imu_lin_g_comp" value="false" />
+    <param name="expected/enable_imu_pp_align" value="false" />
+    <param name="expected/update_imu_bias_corr" value="false" />
+    <param name="expected/imu_time_base_control" value="10" />
+    <param name="expected/enable_imu_accl_z_bias_null" value="0" />
+    <param name="expected/enable_imu_accl_y_bias_null" value="0" />
+    <param name="expected/enable_imu_accl_x_bias_null" value="0" />
+    <param name="expected/enable_imu_gyro_z_bias_null" value="1" />
+    <param name="expected/enable_imu_gyro_y_bias_null" value="1" />
+    <param name="expected/enable_imu_gyro_x_bias_null" value="1" />
+    <param name="expected/update_imu_accl_bias" value="false" />
+    <rosparam param="expected/imu_accl_bias">[0,0,0]</rosparam>
+    <param name="expected/update_imu_gyro_bias" value="false" />
+    <rosparam param="expected/imu_gyro_bias">[0,0,0]</rosparam>
+    <param name="expected/update_imu_accl_scale" value="false" />
+    <rosparam param="expected/imu_accl_scale">[0,0,0]</rosparam>
+    <param name="expected/update_imu_gyro_scale" value="false" />
+    <rosparam param="expected/imu_gyro_scale">[0,0,0]</rosparam>
+  </test>
+
+  <!-- Test topic HZ -->
+  <!-- Note: The actual IMU HZ value will be based on the following formula: -->
+  <!-- Decimation Rate = (uint16_t) (2000 / imu_hz) - 1 -->
+  <!-- Actual IMU HZ = (2000) / (Decimation Rate + 1) -->
+
+  <arg name="actual_imu_hz" value="500" />
+
+  <param name="hztest1/topic" value="imu/data_raw" />
+  <param name="hztest1/hz" value="$(arg actual_imu_hz)" />
+  <param name="hztest1/hzerror" value="20.0" />
+  <param name="hztest1/test_duration" value="50.0" />
+  <param name="hztest1/wait_time" value="20.0" />
+  <test test-name="hztest_test_16470_configA" pkg="rostest" type="hztest" name="hztest1"/>
+
+</launch>

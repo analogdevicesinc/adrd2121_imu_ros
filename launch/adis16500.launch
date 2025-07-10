@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node pkg="adrd2121_imu" type="adrd2121_imu_node" name="adrd2121_imu_node" output="screen">
+    <rosparam command="load" file="$(find adrd2121_imu)/config/adis16500_template.yaml" />
+  </node>
+
+</launch>

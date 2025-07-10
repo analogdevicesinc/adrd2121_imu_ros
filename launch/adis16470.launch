@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node pkg="adrd2121_imu" type="adrd2121_imu_node" name="adrd2121_imu_node" output="screen">
+    <rosparam command="load" file="$(find adrd2121_imu)/config/adis16470_template.yaml" />
+  </node>
+
+  <node pkg="adrd2121_imu" type="bias_estimate_node" name="bias_estimate_node" output="screen">
+    <!-- The Standard Devivation (std) of the Magnitude of Gyroscope and Accelerometer will be calculated
+        + The calculated std will determine the IMU State (MOVING or STANDSTILL)
+        + The lower the value of the threshold, the more sensitive: (i.e. slight IMU movement may be considered as MOVING already)
+        + gyro_std_thresh default value = 0.02
+        + accl_std_thresh default value = 0.08
+    -->
+    <param name="gyro_std_thresh" type="double" value="0.90" />
+    <param name="accl_std_thresh" type="double" value="0.90" />
+
+    <!-- Delay in seconds before subscribing to IMU topic-->
+    <param name="imu_topic_delay" type="double" value="20.0" />
+
+    <!-- Subscribed topics -->
+    <!-- <param name="imu_topic_name" value="/adis16470/data_raw"/> -->
+
+    <!-- Published topics -->
+    <!-- <remap from="imu_state" to="adis16470_state"/> -->
+  </node>
+
+</launch>
