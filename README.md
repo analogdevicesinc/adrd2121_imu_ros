@@ -2,12 +2,15 @@
 
 # Background
 - This ROS driver implements an Abstracted IMU ROS Nodes interfaced with ADRD2121, such that: **Host <-> ADRD2121 <-> IMU**.
-- The ADRD2121 is a hardware and software solution designed to buffer IMU data. (For more info, see: ADRD2121 Github (TODO) )
+- The ADRD2121 is a hardware and software solution designed to buffer IMU data. (For more info, see: [EVAL-ADRD2121-EBZ Evaluation Board](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/eval-adrd2121-ebz.html))
 - A C-based library is used as a dependency: [adi_imu_driver Github]
-
-- Supported IMUs are: ADIS16470, ADIS16500
+- Supported IMUs are: [ADIS16470](https://www.analog.com/en/products/adis16470.html), [ADIS16500](https://www.analog.com/en/products/adis16500.html)
 - Supported communication interface for **Host <-> ADRD2121** are: USB.
 - Supported platform/s are: x86
+- Supported ROS Distro: Noetic
+
+## Software Architecture
+![Software Architecture Diagram](./docs/images/adrd2121_imu_ros_Software_Architecture_Diagram.jpg)
 
 # Software Setup
 
